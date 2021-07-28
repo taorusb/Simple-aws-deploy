@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: load-balancer-webapp
+  name: webapp-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: load-balancer-webapp
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: load-balancer-webapp
+    spec:
+      containers:
+      - name: webapp
+        image: <image>
+        env:
+        - name: SERVER_PORT
+          value: "8080"
+        - name: DB_URL
+          value: "jdbc:mysql://mysql:3306/users_info"
+        - name: DB_USER
+          value: "root"
+        - name: DB_PASSWORD
+          value: "password"
+        ports:
+        - containerPort: 8080

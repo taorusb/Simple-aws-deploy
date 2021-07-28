@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+ install:
+    runtime-versions:
+      java: corretto11
+ pre_build:
+    commands:
+      - aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin # aws ecr username
+      - aws ecr create-repository  --repository-name <repository-name>
+ build:
+    commands:
+      - docker build -t <build-name> .
+      - docker tag # tag your project
+ post_build:
+      commands:
+        - docker push # and push it
